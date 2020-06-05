@@ -1,108 +1,658 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>David Chu's China Bistro</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link href='https://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
-  </head>
-<body>
-  <header>
-    <nav id="header-nav" class="navbar navbar-default">
-      <div class="container">
-        <div class="navbar-header">
-          <a href="index.html" class="pull-left visible-md visible-lg">
-            <div id="logo-img" alt="Logo image"></div>
-          </a>
 
-          <div class="navbar-brand">
-            <a href="index.html"><h1>David Chu's China Bistro</h1></a>
-            <p>
-              <img src="images/star-k-logo.png" alt="Kosher certification">
-              <span>Kosher Certified</span>
-            </p>
-          </div>
 
-          <button id="navbarToggle" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsable-nav" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head id="ctl00_Head1"><title>
+	RPSC | Home
+</title><meta http-equiv="X-UA-Compatible" content="IE=edge" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="Content-Security-Policy" content="script-src &#39;self&#39; &#39;unsafe-inline&#39; &#39;unsafe-eval&#39;" /><meta content="text/html; charset=UTF-8; X-Content-Type-Options=nosniff" http-equiv="Content-Type" /><link rel="shortcut icon" href="Images/favicon.ico" type="image/x-icon" /><link href="Styles/jquery-ui.css" rel="stylesheet" type="text/css" /><link href="Styles/bootstrap.css" rel="stylesheet" type="text/css" /><link href="Styles/MasterWeb.css?v=1.6" rel="stylesheet" type="text/css" /><link href="Styles/font-awesome.css" rel="stylesheet" type="text/css" /><link href="Styles/treemenu.css" rel="stylesheet" type="text/css" /><link href="Styles/datepicker3.css" rel="stylesheet" type="text/css" /><link href="Styles/star-rating.css" rel="stylesheet" type="text/css" />
+
+    <script src="..//Scripts/jquery.js" type="text/javascript"></script>
+    <script src="..//Scripts/jquery-ui.js" type="text/javascript"></script>
+    <script src="..//Scripts/bootstrap.js" type="text/javascript"></script>
+    <script src="..//Scripts/Common.js?v=1.1" type="text/javascript"></script>
+    <script src="..//Scripts/sitemap.js" type="text/javascript"></script>
+    <script src="..//Scripts/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="..//Scripts/photo-gallery.js?v=1.1" type="text/javascript"></script>
+    <script src="..//Scripts/star-rating.js" type="text/javascript"></script>
+    
+    
+    <script type="text/javascript">
+        function CheckSearchKey() {
+            var val = document.getElementById('ctl00_txtSearchBox');
+            if (val.value.trim() == '') {
+                $('#' + val.id).popover('show');
+                $('#' + val.id).focus();
+                return false;
+            }
+            return true;
+        }
+
+        $(document).ready(function () {
         
-        <div id="collapsable-nav" class="collapse navbar-collapse">
-           <ul id="nav-list" class="nav navbar-nav navbar-right">
-            <li id="navHomeButton" class="visible-xs active">
-              <a href="index.html">
-                <span class="glyphicon glyphicon-home"></span> Home</a>
-            </li>
-            <li id="navMenuButton">
-              <a href="#" onclick="$dc.loadMenuCategories();">
-                <span class="glyphicon glyphicon-cutlery"></span><br class="hidden-xs"> Menu</a>
-            </li>
-            <li>
-              <a href="#">
-                <span class="glyphicon glyphicon-info-sign"></span><br class="hidden-xs"> About</a>
-            </li>
-            <li>
-              <a href="#">
-                <span class="glyphicon glyphicon-certificate"></span><br class="hidden-xs"> Awards</a>
-            </li>
-            <li id="phone" class="hidden-xs">
-              <a href="tel:410-602-5008">
-                <span>410-602-5008</span></a><div>* We Deliver</div>
-            </li>
-          </ul><!-- #nav-list -->
-        </div><!-- .collapse .navbar-collapse -->
-      </div><!-- .container -->
-    </nav><!-- #header-nav -->
-  </header>
+            $("#" + "ctl00_txtSearchBox").on("contextmenu", function (e) {
+                return false;
+            });
+        });
 
-  <div id="call-btn" class="visible-xs">
-    <a class="btn" href="tel:410-602-5008">
-    <span class="glyphicon glyphicon-earphone"></span>
-    410-602-5008
-    </a>
-  </div>
-  <div id="xs-deliver" class="text-center visible-xs">* We Deliver</div>
+        function PlayCaptchaAudio() {
+            $.ajax({
+                type: "POST",
+                url: "CommonService.asmx/GetCaptcha",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    try {
+                        if (response.d) {
+                            var splitotp = response.d.split('');
+                            for (i = 0; i < splitotp.length; i++) {
+                                (function (i) {
+                                    window.setTimeout(
+                                        function () {
+                                            var soundObject = document.createElement("audio");
+                                            soundObject.setAttribute("src", "sounds/" + splitotp[i] + ".wav");
+                                            soundObject.setAttribute("hidden", true);
+                                            soundObject.setAttribute("autoplay", "autoplay");
+                                            document.body.appendChild(soundObject); 
+                                        },i * 1000);
+                                }(i));
+                            }
+                        }
+                        else {
+                            alert('Error Occured in captcha.');
+                        }
+                    }
+                    catch (error) {
+                        alert(error);
+                    }
+                },
+                failure: function (response) {
+                    alert("error occured:" + repsonse);
+                }
+            });
+        }
+    </script>
 
-  <div id="main-content" class="container"></div>
+    <script src="..//Scripts/script.js?v=1.1" type="text/javascript"></script>
+</head>
+<body>
+    <form name="aspnetForm" method="post" action="./" id="aspnetForm">
+<div>
+<input type="hidden" name="ctl00_ScriptManager1_HiddenField" id="ctl00_ScriptManager1_HiddenField" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
 
-  <footer class="panel-footer">
-    <div class="container">
-      <div class="row">
-        <section id="hours" class="col-sm-4">
-          <span>Hours:</span><br>
-          Sun-Thurs: 11:15am - 10:00pm<br>
-          Fri: 11:15am - 2:30pm<br>
-          Saturday Closed
-          <hr class="visible-xs">
-        </section>
-        <section id="address" class="col-sm-4">
-          <span>Address:</span><br>
-          7105 Reisterstown Road<br>
-          Baltimore, MD 21215
-          <p>* Delivery area within 3-4 miles, with minimum order of $20 plus $3 charge for all deliveries.</p>
-          <hr class="visible-xs">
-        </section>
-        <section id="testimonials" class="col-sm-4">
-          <p>"The best Chinese restaurant I've been to! And that's saying a lot, since I've been to many!"</p>
-          <p>"Amazing food! Great service! Couldn't ask for more! I'll be back again and again!"</p>
-        </section>
-      </div>
-      <div class="text-center">&copy; Copyright David Chu's China Bistro 2016</div>
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=xbI1ZGCd33_Ub_bouwYKlU1fwlOfqZO198SFmtsMixn1DQGWzkAe80ss0SROKyNgWUeWuwpiFMoP-iwDg7psAc8J8ps1&amp;t=636161042560000000" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=5jjYmpEOnytR9b42UaLsQv_RjCBAAobYFN4JufTGsAwjk7ZOXX3mWu3NWwt10F6SkIgE-twffXYzpsWZh_Lw4fYgpToecgHUpCMJtNjNPki-36DQDsDJ2Z6BwJg8Mk52OneMLCRX-ewWB-IzdYNwUj-lnOQhgZ8THgkjBygxpjdvjAp60&amp;t=2a48f442" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=Qc6vn_zljoFnvhsUqfklTAUDZjqfxX6gYjyp16o1hy7ka9BK-NDGyaT4ffVkiAI5gb1ETu-UfyhTmpkzihgFk_vwEOsSknvgv2MptBoXPMCQN2boBAeaDVtwGJq8LJKJZBdd7_0ft_Lo1Z2VfuC8zHa6b2JpR8lC1B21jMEWirS1J8nA0&amp;t=2a48f442" type="text/javascript"></script>
+<script src="/Home.aspx?_TSM_HiddenField_=ctl00_ScriptManager1_HiddenField&amp;_TSM_CombinedScripts_=%3b%3bAjaxControlToolkit%2c+Version%3d1.0.20229.20821%2c+Culture%3dneutral%2c+PublicKeyToken%3d28f01b0e84b6d53e%3aen-US%3ac5c982cc-4942-4683-9b48-c2c58277700f%3ae2e86ef9%3a9ea3f0e2%3a9e8e87e9%3a1df13a87%3a4c9865be%3aba594826%3a2d0cbeda" type="text/javascript"></script>
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="8D0E13E6" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="d0rAvj3bZOVBfFfc57OyCeoceYXtdcVVt9+terMeEt4ROtqR2VN7ELzZ5kszqnbbqpWhmBV/9AEb7ci3Hh2OBs0oSEdBoXAyeGaP2DUFSedvruKDLhhmbJYg4HSz/30dZLtgCBXR5Wm1QAmJwA37NKnZYOZYycCkTaFbeEew75P+YDCFiFNxTgEEZBsW1oP06a+piiwIcvEchPpGpcH4If9OTeC+gkbdNXnQZNpmcFt4mX9v1J00Zw5Ru7QP2z1wIZvGUgkhGmkPJTvx" />
+</div>
+        <div class="container-fluid">
+	        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$ScriptManager1', 'aspnetForm', [], [], [], 90, 'ctl00');
+//]]>
+</script>
+
+            <table align='center' width="100%" style="background-color:white;" class="table-responsive">
+                <tr class="visible-lg visible-md">
+                    <td align="center" style="width:10%;"><img src="Images/Emblem.png" alt="Header Logo" class="img-responsive" /></td>
+                    <td style="width:30%;" id="deptHeader">
+                        <span>राजस्थान लोक सेवा आयोग</span><br />
+                        <small>ISO(2001:2008) राजस्थान सरकार</small><br/><br/>
+                        <span>Rajasthan Public Service Commission</span><br />
+                        <small>ISO(2001:2008) Govt. of Rajasthan</small>
+                    </td>
+                    <td style="vertical-align:top;">
+		                <div class="container" id="mynav" style="width:95%">
+		                    <div class="navbar-header topMenuHeader" >
+			                    <button type="button" class="navbar-toggle topMenu" data-toggle="collapse" data-target="#myNavbar"><span class="glyphicon glyphicon-align-justify"></span></button>
+		                    </div>
+
+		                    <div class="collapse navbar-collapse" id="myNavbar">
+			                    <ul class="breadcrumb">
+				                    <li><a class="breadcrumbLinks" href="home" title="Home"><span class="glyphicon glyphicon-home glyph" aria-hidden="true"></span></a></li>
+				                    <li><a class="breadcrumbLinks" href="javascript:void(0)" data-toggle="modal" data-target="#rtiModal" >RTI</a></li>
+				                    <li><a class="breadcrumbLinks" href="sitemap">Sitemap</a></li>
+				                    <li><a class="breadcrumbLinks" href="Static/Others/FAQ.pdf" target="_blank" rel="noopener noreferrer">FAQ</a></li>
+				                    <li><a class="breadcrumbLinks" href="javascript:void(0)" data-toggle="modal" data-target="#awardModal">Awards</a></li>
+                                    <li><a class="breadcrumbLinks" href="portalshortcuts" target="_blank" rel="noopener noreferrer" title="Portal Accessibility Shortcuts" data-toggle="tooltip" data-placement="bottom"><span class="fa fa-keyboard-o" aria-hidden="true"></span></a></li>
+                                    <li><a class="breadcrumbLinks" href="sra" title="Screen Reader Access" data-toggle="tooltip" data-placement="bottom"><img src="Images/sra.png" alt="sra image" /></a></li>
+                             
+				                    <li>
+                                        <button type="button" class="btn btn-xs font-button plus customSiteButton" title="Increase Font size"><strong>A+</strong></button>
+				                        <button type="button" class="btn btn-xs font-button default customSiteButton" title="Reset Font size"><strong>A</strong></button>
+				                        <button type="button" class="btn btn-xs font-button minus customSiteButton" title="Decrease Font size"><strong>A-</strong></button>
+				                    </li>
+                                    <li>
+                                        <input type="submit" name="ctl00$btnTheme1" value="  " id="ctl00_btnTheme1" title="Default Theme" class="btn btn-xs" style="border-color:Black;background:linear-gradient(0deg, #FBD56A, #FFBF36, #FFBF36) no-repeat;" />
+                                        <input type="submit" name="ctl00$btnTheme2" value="  " id="ctl00_btnTheme2" title="Sand Theme" class="btn btn-xs" style="border-color:Black;background:linear-gradient(0deg, #EDC9AF, #DF9F71, #DF9F71) no-repeat;" />
+                                        <input type="submit" name="ctl00$btnTheme3" value="  " id="ctl00_btnTheme3" title="Orange Theme" class="btn btn-xs" style="border-color:Black;background:linear-gradient(0deg, #E97541, #CC5500, #CC5500) no-repeat;" />
+                                        <input type="submit" name="ctl00$btnTheme4" value="  " id="ctl00_btnTheme4" title="Blue Theme" class="btn btn-xs" style="border-color:Black;background:linear-gradient(0deg, #60A5C1, #4682B4, #4682B4) no-repeat;" />
+                                        
+                                    </li>
+				                    <li>
+                                        <a class="breadcrumbLinks" href="javascript:" title="Like RPSC" onclick="window.open('https://facebook.com/RPSC.Ajmer');"><i class="fa fa-facebook fa-lg glyph" aria-hidden="true"></i></a>&nbsp;
+				                        <a class="breadcrumbLinks" href="javascript:" title="Follow RPSC" onclick="window.open('https://twitter.com/RPSC1');"><i class="fa fa-twitter fa-lg glyph" aria-hidden="true"></i></a>&nbsp;
+				                        <a class="breadcrumbLinks" href="eventcalendar" target="_blank" rel="noopener noreferrer" title="RPSC Event Calendar" ><i class="fa fa-calendar fa-lg glyph" aria-hidden="true"></i></a>&nbsp;
+                                        <a class="breadcrumbLinks" href="javascript:void(0)" data-toggle="modal" data-target="#rssModal" target="_blank" rel="noopener noreferrer" title="RPSC RSS Feed" ><i class="fa fa-rss fa-lg glyph" aria-hidden="true"></i></a>&nbsp;
+                                        <a class="breadcrumbLinks" href="javascript:void(0)" data-animation="true" data-trigger="focus" data-toggle="popover" data-html="true" data-placement="bottom" data-content="<img src='Images/browsers.png' class='img img-responsive' style='min-width:250px;' />" ><span class="fa fa-globe fa-lg glyph" style="vertical-align:middle;" title="Site Compatible Browsers"></span></a>
+                                        <a class="breadcrumbLinks" href="feedback" title="Feedback to RPSC"><span class="glyphicon glyphicon-pushpin fa-lg glyph" style="vertical-align:middle;"></span></a>
+                                    </li>
+			                    </ul>
+		                    </div>
+		                </div>
+                    </td>
+                    <td><img src="Images/RPSC_Logo.png" alt="Header Logo" align="middle" class="img-responsive"/></td>
+                </tr>
+                <tr class="visible-sm visible-xs">
+                    <td><img src="Images/RPSC_Header_small.png" alt="Header Logo" class="img-responsive" align="middle" style="display:block;margin-left:auto;margin-right:auto"/></td>
+                </tr>
+            </table>
+	        
+            <div style="background-color:White;">
+	        <div id="rpsc-menu" class="navbar navbar-default" role="navigation">
+	            <div class="container-fluid">
+		            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu"><span class="glyphicon glyphicon-align-justify"></span></button>
+	                <div class="collapse navbar-collapse navbar-menubuilder" id="menu">
+		                <ul class="nav navbar-nav">
+			                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">General <b class="caret"></b></a>
+			                    <ul class="dropdown-menu">
+				                    <li><a href="profile">Profile</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="actsrules">Act and Rules </a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="commission">Commission </a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="chairmen">Chairmen (Past)</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="members">Members (Past)</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="secretaries">Secretaries (Past)</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="officialmaterial">Information for Officials</a></li>
+                                    <li class="divider"></li>
+                                    <li style="margin-bottom:3px"><a href="mediaspeaks" target="_blank" rel="noopener noreferrer">Media Speaks</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="birthdays">RPSC Employees Birthdays</a></li>
+                                    <li class="divider"></li>
+				                    <li><a href="rpscempaward">RPSC Employees Awards</a></li>
+			                    </ul>
+			                </li>
+	    
+			                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Candidate Information <b class="caret"></b></a>
+			                    <ul class="dropdown-menu">
+				                    <li><a href="examdashboard" accesskey="0">Exam Dashboard</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="downloads" accesskey="10">Important Downloads</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="advertisements" accesskey="2">Recruitment Advertisements</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="pressnotes" accesskey="3">Press Notes</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="syllabus" accesskey="4">Syllabus</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="quespapers" accesskey="5">Question Papers</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="answerkeys" accesskey="6">Answer Keys</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="mocktest">Online Exam/Mock Test Information</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="results" accesskey="7">Results</a></li>
+			                    </ul>
+			                </li>
+
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">RPSC Online <b class="caret"></b></a>
+			                    <ul class="dropdown-menu">
+				                    <li><a href="applyredirect" accesskey="1">Apply Online</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="objredirect" accesskey="8">Objections Online</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="centretrace" target="_blank" rel="noopener noreferrer" accesskey="9">Centre Trace</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="memory" target="_blank" rel="noopener noreferrer">MEMORY <small>(My Exam My Online Review Yes)</small> </a></li>
+			                        <li class="divider"></li>
+                                    <li><a href="scribereg">Scribe Registration/Login</a></li>
+                                </ul>
+			                </li>
+
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Links <b class="caret"></b></a>
+			                    <ul class="dropdown-menu">
+                                    <li><a href="tenders">RPSC Tenders</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="photogallery" style="border-right: 0px;">RPSC Photo Gallery</a></li>
+                                    <li class="divider"></li>
+				                    <li><a href="otherpscs">Other Public Service Commissions</a></li>
+			                    </ul>
+			                </li>
+
+			                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Report <b class="caret"></b></a>
+			                    <ul class="dropdown-menu">
+                                    <li><a href="kasauti" target="_blank" rel="noopener noreferrer">Kasauti Rajasthan</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="annualreport">RPSC Annual Report (Detailed)</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="briefannualreport">RPSC Annual Report (Brief)</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="Static/Others/IPR_detail_rpsc_staff.pdf" target="_blank" rel="noopener noreferrer">Immovable Property</a></li>
+			                    </ul>
+			                </li>
+
+                            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Reach RPSC <b class="caret"></b></a>
+			                    <ul class="dropdown-menu">
+                                    <li><a href="https://www.google.co.in/maps/place/Rajasthan+Public+Service+Commission/@26.4829109,74.6693073,15z/data=!4m5!3m4!1s0x0:0xf406215d766bf977!8m2!3d26.4859961!4d74.6690324" target="_blank" rel="noopener noreferrer" accesskey="*">RPSC On Google Map</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="http://www.indianrail.gov.in/inet_srcdest_clus.html" target="_blank" rel="noopener noreferrer">Indian Railways</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="Static/Others/TrainsFromToPassThroughAjmer.pdf" target="_blank" rel="noopener noreferrer">Trains From/To Ajmer</a></li>
+				                    <li class="divider"></li>
+				                    <li><a href="https://rsrtconline.rajasthan.gov.in/busenquiry" target="_blank" rel="noopener noreferrer">Rajasthan Roadways</a></li>
+			                    </ul>
+			                </li>
+
+		                </ul>
+		                <div  style="padding-top:0.2%;">
+			                <div class="input-group col-sm-3" >
+				                <input name="ctl00$txtSearchBox" type="text" maxlength="100" id="ctl00_txtSearchBox" onkeyup="CustomizedCharFilter($(this));" data-placement="top" onblur="javascript:hidePopover(this);" data-html="true" data-content="&lt;span class=&#39;glyphicon glyphicon-exclamation-sign&#39; aria-hidden=&#39;true&#39;>&lt;/span> Please provide a search query" onkeydown="javascript:hidePopover(this);" class="form-control" placeholder="Search Website" />
+				                <span class="input-group-btn" id="search-addon"><input type="submit" name="ctl00$btnSearch" value="Search" onclick="return CheckSearchKey();" id="ctl00_btnSearch" class="btn btn-default" /></span>
+				
+				                
+				            </div>
+			            </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+<script type="text/javascript" src="Scripts/Home.js?v=4"></script>
+
+     <div class="container-fluid">
+        <div class="ImpNews"><marquee scroll="1"></marquee></div>
+        <div class="col-sm-8 linkContainer" style="padding-left :0px">
+            <div class="col-sm-4" style="padding-left :0px;padding-right :0px">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h2><span class="glyphicon glyphicon-link"></span> Important Links</h2></div>
+                    <div class="panel-body rpscResizedFont" style="padding-left :0px;height:280px;overflow-y:auto;padding-bottom:5px">
+                        <ul><li class='spacing_bottom'> <a href='scribereg' target='_blank' rel='noopener noreferrer'>Scribe Registration</a></li><li class='spacing_bottom'> <a href='applyredirect' target='_self' rel='noopener noreferrer'>Apply Online</a></li><li class='spacing_bottom'> <a href='https://sso.rajasthan.gov.in' target='_blank' rel='noopener noreferrer'>Online Exam Objections</a></li><li class='spacing_bottom'> <a href='https://rpsc.rajasthan.gov.in/centretrace' target='_blank' rel='noopener noreferrer'>Exam Centre Trace</a></li><li class='spacing_bottom'> <a href='advertisements' target='_self' rel='noopener noreferrer'>Recruitment Advertisements</a></li><li class='spacing_bottom'> <a href='pressnotes' target='_self' rel='noopener noreferrer'>Press Note</a></li><li class='spacing_bottom'> <a href='results' target='_self' rel='noopener noreferrer'>Results</a></li><li class='spacing_bottom'> <a href='examlinks' target='_blank' rel='noopener noreferrer'>Instructions / Interview Letter / Certificates</a></li><li class='spacing_bottom'> <a href='forthcominginterviews' target='_blank' rel='noopener noreferrer'>Tentative Interview Dates</a></li><a href='downloads' target='_self' rel='noopener noreferrer'>Downloads</a></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8" style="padding-right :0px;padding-left:30px">
+                <div id="carousel-example-generic"  align="center" class="col-sm-12 carousel slide visible-lg visible-md visible-sm" style="padding-right :0px;padding-left:0px" data-ride="carousel" data-interval="4000">
+		            <ol class="carousel-indicators">
+		                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+		                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+		                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+		            </ol>
+
+		            <div class="carousel-inner rpscPicCarousel" role="listbox">
+		                <div class="item active"><img class="rpscHomeImage" src="Images/rpsc1.jpg" alt="RPSC" /><div class="carousel-caption"><span>Rajasthan Public Service Commission</span></div></div>
+		                <div class="item"><img class="rpscHomeImage" src="Images/rpsc2.jpg" alt="RPSC" /><div class="carousel-caption"><span>Rajasthan Public Service Commission</span></div></div>
+		                <div class="item"><img class="rpscHomeImage" src="Images/rpsc3.jpg" alt="RPSC" /><div class="carousel-caption"><span>Rajasthan Public Service Commission</span></div></div>
+                        <div class="item"><img class="rpscHomeImage" src="Images/rpsc4.jpg" alt="RPSC" /><div class="carousel-caption"><span>Rajasthan Public Service Commission</span></div></div>
+		            </div>
+
+		            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+		                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span>
+		            </a>
+		            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+		                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span>
+		            </a>
+	            </div>
+            </div>
+        </div>
+        <div class="col-sm-4 linkContainer" style="padding-left :0px">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h2><span class="glyphicon glyphicon-list-alt"></span> News and Events</h2></div>
+                <div class="panel-body rpscResizedFont">
+                    <marquee style="height:215px" behavior="scroll" onmouseover="stopMarquee(this);" onmouseout="startMarquee(this);" direction="up" loop="-1" scrollamount="2"><a href='/Static/Result/52351612CDC84624A8270DF8D0BD2FD7.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'><img src='Images/New.png' alt='New Icon' />03/06/2020 - Result of 01 candidate for Sr. Teacher Grade II Exam 2013 (English)</a><a href='/Static/RecruitmentAdvertisements/8979F00D5AC54434AAF315A9F0388934.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'><img src='Images/New.png' alt='New Icon' />01/06/2020 - Detailed Advt. No E-01/2020-21 for  School Lecturer (Sanskrit Edu.) - 2020</a><a href='/Static/PressNotes/649ACCF3-B3A8-4C9A-8C3B-335FE67137DD.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>29/05/2020 - Press Note Regarding Online Application Reopening for Physiotherpist (Non-Tsp)-2018</a><a href='/Static/PressNotes/8ECAD319-558E-477D-8243-C88495A1890A.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>29/05/2020 - Press Note Regarding Online Application Reopening for Inspector Factory and Boilers exam 2020</a><a href='/Static/RecruitmentAdvertisements/9541707E117C45DCA001D2F0D0534F1D.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>29/05/2020 - Corri No.-02/2020-21 Regarding Bifurcation of Post and Apply Online for Inspector Factory and Boilers-2020</a><a href='/Static/Result/F9F671B82B604F65846ABDC673472FCD.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>28/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Mathematics)</a><a href='/Static/Result/02F9C691DC574685A20C94837FA9C149.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>28/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Mathematics)</a><a href='/Static/Result/606397795C4A4003A02BCB2BFB1B461C.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>28/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (NON TSP) - 2018 (Mathematics)</a><a href='/Static/Result/1FF89B039CD942AEABECC0E3D534E6D4.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>28/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (NON TSP) - 2018 (Mathematics)</a><a href='/Static/Result/886FF35635994100A81567B360C69DF4.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>27/05/2020 - Result by Court Order M.V.S.I. Exam 2013</a><a href='/Static/Result/D3359F2D4A2246538D7490DA0C2FE822.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>27/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Social Science)</a><a href='/Static/Result/3A1EF031FC9E475DBDEACFC0EA4F81A2.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>27/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Social Science)</a><a href='/Static/Result/EAABF10392C84FD9AA31AB09379EB4B5.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>27/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (NON TSP) - 2018 (Social Science)</a><a href='/Static/Result/836E460CF5AA444E8D65AA6CD5AF1187.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>27/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (NON TSP) - 2018 (Social Science)</a><a href='/Static/Result/1DA96C341B204AA18D06F3B07BE39281.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>26/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (NON TSP) - 2018 (Science)</a><a href='/Static/Result/A56FE087D8024C18B3A203B9094A9789.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>26/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (NON TSP) - 2018 (Science)</a><a href='/Static/Result/88C1D131616048D3A28C8700894D710A.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>26/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Science)</a><a href='/Static/Result/8A193907D26C4321AC780A36C3164FB2.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>26/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Science)</a><a href='results' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>26/05/2020 - Marks for Asst. Statistical Officer (TSP) (Planning Dept.) 2018</a><a href='/Static/AnswerKeys/98B4DFD5-6446-4BB9-AD0B-B020E5CC8CC1.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>26/05/2020 - Final Answer Key for Asst. Statistical Officer (TSP) (Planning Dept.) 2018</a><a href='/Static/AnswerKeys/4C428AEB-F4F3-4B28-83D3-C7B2EAB206EE.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>26/05/2020 - Final Answer Key for Asst. Statistical Officer (Non-TSP) (Planning Dept.) 2018</a><a href='results' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>26/05/2020 - Marks for Asst. Statistical Officer (Non-TSP) (Planning Dept.) 2018</a><a href='/Static/Result/718FB1BC1B6E46F595D0A192E85BDDCA.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>22/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Sanskrit)</a><a href='/Static/Result/9EE9B1A73E104B6D8930B632D8CA03D0.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>22/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Sanskrit)</a><a href='/Static/Result/B2266A00A88C4E82A0746DA8449AA213.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>22/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (Non-TSP) - 2018 (Sanskrit)</a><a href='/Static/Result/E920FC89C1B042DCB7BF5F1E8752C0B1.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>22/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (Non-TSP) - 2018 (Sanskrit)</a><a href='/Static/Result/23EE21DFDF92437AA1FC94AB47E0F2D7.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>21/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (English)</a><a href='/Static/Result/6E3FFAC065874E3E95EF335743D4BB2D.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>21/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (English)</a><a href='/Static/Result/71379CE80C9F476183B77F7FC38CB96D.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>21/05/2020 - Result Preamble and Cut off marks (Reserve List) for Sr. Teacher Gr II (Sanskrit Edu.) (Non-TSP) - 2018 (English)</a><a href='/Static/Result/85A26A7D0C004A7BA6772C0D69E27B73.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>21/05/2020 - Result Preamble and Cut off marks (Main List) for Sr. Teacher Gr II (Sanskrit Edu.) (Non-TSP) - 2018 (English)</a><a href='/Static/PressNotes/6B7B2360-544D-49F2-B627-762E5F181AA6.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>21/05/2020 - Press Note regarding reopening of Online Objections for School Lecturer(School Edu.)(Group-B) Exam - 2018</a><a href='/Static/Result/57ADAA9EFA66401CACA98EC391C5D250.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>20/05/2020 - Result Preamble and Cut off marks (Main List) for  Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Hindi)</a><a href='/Static/Result/7C3E45EE33104776B73E4D7942CF0E3E.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>20/05/2020 - Result Preamble and Cut off marks (Reserve List) for  Sr. Teacher Gr II (Sanskrit Edu.) (TSP) - 2018 (Hindi)</a><a href='/Static/Result/268D7F075933483AB8EB3F804E81E923.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>20/05/2020 - Result Preamble and Cut off marks (Reserve List) for  Sr. Teacher Gr II (Sanskrit Edu.) (Non-TSP) - 2018 (Hindi)</a><a href='/Static/Result/D53F1962C4CF4AF5933A3E7AB2E7C9CE.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>20/05/2020 - Result Preamble and Cut off marks (Main List) for  Sr. Teacher Gr II (Sanskrit Edu.) (Non-TSP) - 2018 (Hindi)</a><a href='results' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>20/05/2020 - Marks for Junior Legal Officer Exam 2019</a><a href='/Static/AnswerKeys/DE254C18-FCAE-420C-A9E2-FC596B39BF79.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for Agriculture(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/3B1FB415-4E66-44FB-843B-C26690971E6B.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for Commerce(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/1387126E-7B19-4A36-8018-06C8613C558C.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for Drawing(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/57F194E5-E485-4141-A977-61BF2AA3F3BB.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for Mathematics(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/06A897F0-D3D0-479F-9C32-F0FAA4FD79F5.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for Punjabi(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/424E6115-8F85-4E24-8B44-C60EC5EA6C11.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for English(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/57F6BC92-17B6-4CB0-85FD-C4557819E58E.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for History(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/553394CD-F535-4BD5-AA9F-2FCB519EB7AE.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for Chemistry(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/6852AA85-C2BB-4843-B7D3-9DC428358C7B.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for Sociology(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/D822041E-79BB-4710-BA5C-EFAE67E8A39D.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for Home Science(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/AnswerKeys/BE9D2476-600A-45F3-B33B-848C27A9FD91.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Answer Key for G.K.(Group-C) School Lecturer (School Edu.) - 2018</a><a href='/Static/PressNotes/2ACCDC9C-3B63-4CED-B73C-0467036476EB.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Press Note Regarding Online Objections for School Lect. Exam 2018( School Edu.) (Group C)</a><a href='Static/News/01A5B23C7E714C0EA58A2A71BE4D1C7B.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Press Note Regarding Pre-Litigation Committee</a><a href='/Static/Result/F137E1F7D2024193A33743B7F80CDC08.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Screening Result Preamble for Fisheries Development Officer</a><a href='/Static/Result/9F96ED4EE21F43A0BE92AE81E6141390.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>19/05/2020 - Screening Result Preamble for Asst. Fisheries Development Officer</a><a href='/Static/Result/7AE10542B18341C5B5D8C8C20DF431EE.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>14/05/2020 - Result Preamble and Cut off marks (Main List) for Asst. Statistical Officer (Planning) 2018 (TSP)</a><a href='/Static/Result/CD441A7105B54574B338B7398269612A.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>14/05/2020 - Result Preamble and Cut off marks (Reserve List) for Asst. Statistical Officer (Planning) 2018 (TSP)</a><a href='/Static/Result/F2C075332F274BB29C78AACA1531B4C3.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>14/05/2020 - Result Preamble and Cut off marks (Reserve List) for Asst. Statistical Officer (Planning) 2018</a><a href='/Static/Result/82C48A96FC3A4DCC9A7540C6AA34DAA7.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>14/05/2020 - Result Preamble and Cut off marks (Main List) for Asst. Statistical Officer (Planning) 2018</a><a href='/Static/RecruitmentAdvertisements/F4989EA1008A475899D8625A0D6C7065.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>14/05/2020 - Corrigendum No. 01-20-21 regarding Post Bifurcation for Asst. Fisheries Development Officer 2019</a><a href='/Static/RecruitmentAdvertisements/2F1CB9AC7A794662B16239A3009AC97C.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>14/05/2020 - Corrigendum No. 01-20-21 regarding Post Bifurcation for Fisheries Development Officer 2019</a><a href='/Static/Result/F9A3A44943974E5CB27F49F4EE2CDBDC.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>13/05/2020 - Afresh Interview Result for Asst. Agriculture Officer (Non TSP) - 2015</a><a href='/Static/Result/063BE4FAD1CD413482F16CF3423CD464.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>13/05/2020 - Amendment in Result Sr. Teacher Gr II Comp. Exam (Non TSP) Exam 2018 (Sanskrit)</a><a href='/Static/Result/80F1A4800A7C477AB7CAC46CB80AF882.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>08/05/2020 - Written Exam Result Preamble and Cutoff Marks for Junior Legal Officer 2019</a><a href='/Static/PressNotes/B9E2E10D-6FF0-481F-9162-1C35CDB1AF6F.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>27/04/2020 - Press Note Regarding postponement of School Lecturer (Sanskrit Education) Exam 2018</a><a href='Static/News/AE215C104E29442185DF404065124EC2.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>03/03/2020 - Press Note Regarding Pre-Litigation Committee</a><a href='Static/News/645F7DF6795F41DA9978942E9A55A99D.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>27/02/2020 - Appointment Letter regarding LDC 2018</a><a href='Static/News/ECECAB7106DE457CAE169D7C0425670D.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>20/01/2020 - Press Note Regarding Pre-Litigation Committee</a><a href='Static/News/5A31CFD37E164487A23907CC5D00F984.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>09/01/2020 - Press Note Regarding Pre-Litigation Committee</a><a class='NewsAnchor'>01/01/2020 - RPSC Wishes a very Happy New Year 2020</a><a href='Static/News/5D101FC6750448958687963BF82FDD76.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>01/10/2019 - Press Note Regarding Pre-Litigation Committee</a><a href='Static/News/7FC9D0025A704EF7A6D01B018A0CF58A.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>05/08/2019 - Press Note Regarding Pre-Litigation Committee</a><a href='Static/News/05732D52B53B4A66A01B1CB595052D54.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>02/08/2019 - Press Release Regarding Hiring of Retired Employees on Contract Basis</a><a href='Static/News/0B1985E1039240199C2EBD5AC9F953C1.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>10/07/2019 - Press Note for Online Scribe Registration regarding District-wise Scribe Panel</a><a href='Static/News/C6141E9F3F374688A6007EB2C99E7694.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>26/06/2019 - Press Note Regarding  Hiring of Retired Employees on Contract Basis</a><a href='Static/News/4CB6285A5FE0458194DB3FEB5FBED1E1.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>10/06/2019 - Press note Regarding Innovations done by RPSC</a><a href='Static/News/0333DE267E1B45CAB66D5F37AEAA0C41.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>31/05/2019 - Press Note Regarding Pre-Litigation Committee</a><a href='Static/News/716B198C501A42BABE026539815515AC.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>03/05/2019 - Press Release Regarding Online Edit For Various Examinations</a><a href='Static/News/06F3F748DC5040E6AA4F0FEF690D5366.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>01/05/2019 - RPSC – Breaking New Ground in e-Governance</a><a class='NewsAnchor'>16/08/2017 - RPSC Website is now available with Multiple Color Themes</a><a href='Static/News/67EF202825F745E3B9E75BBDE2E25A6C.pdf' class='NewsAnchor' target='_blank' rel='noopener noreferrer'>16/05/2017 - RPSC: Leveraging IT to Build Robust Marking Systems</a><a class='NewsAnchor'>14/10/2015 - RPSC Official Web Portal look has been changed and launched w.e.f. 14.10.2015</a></marquee>
+                </div>
+                <div class="panel-footer" style="text-align:right;">
+                    <a href="news" target="_blank" rel="noopener noreferrer" accesskey="`"><span class="glyphicon glyphicon-new-window"></span> View all</a>
+                </div>
+            </div>
+        </div>
+            
+        <div class="col-sm-3" style="padding-left :0px">
+            <div class="panel panel-default">
+                <div class="panel-heading rpscResizedFont"><h2><span class="glyphicon glyphicon-dashboard"></span> Exam Dashboard</h2></div>
+                <div class="panel-body infoContainer" >
+                    <div class="col-xs-12 rpscResizedFont displayBlock" style="overflow:auto;font-weight:bold">
+                        Exam Dashboard Provides an Overall Status of Exams being conducted by the Commission.
+                    </div>
+                </div>
+                <div class="panel-footer linkContainer" style="text-align:right;">
+                    <a href="examdashboard"><span class="glyphicon glyphicon-link"></span> Go to Exam Dashboard</a>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="col-sm-3" style="padding-left :0px">
+        <div class="panel panel-default">
+            <div class="panel-heading rpscResizedFont"><h2><span class="glyphicon glyphicon-envelope"></span> Important Message(s)</h2></div>
+            <div class="panel-body infoContainer" style="font-size:90%;padding-left:0;margin-left:0;margin-right:0;padding-right:8px" >
+                <div id="impMsgPrev"  class="upExamNavButtons" style="float:left;padding-left:5px;margin-left:0;margin-right:0;padding-right:8px">
+                    
+                </div>
+                <div class="col-xs-10 displayBlock"  style="overflow:auto;padding-left:20px;margin-left:0;margin-right:0px;padding-right:0px" >
+                    <div  id="impMsgSlides" class="impMsgSlides">
+                        <ul style="padding-left:0;margin-left:0;margin-right:0;padding-right:0px"><li class='impMsgSlide' style='padding-left:0; margin-left:0; margin-right:0; padding-right:0px' ><div class='rpscResizedFont' style='padding-left:0; margin-left:0; margin-right:0; padding-right:0px'>Candidates are advised to fill application form before last date of submitting application.</div></li> </ul>
+                    </div>
+                </div>
+                <div id="impMsgNext" class="upExamNavButtons" style="float:right;width:5px;margin-right:0;padding-right:0;margin-left:0;padding-left:0">
+                    
+                </div>
+            </div>
+            <div class="panel-footer linkContainer" style="text-align:right;">
+                <a href="impmessage" ><span class="glyphicon glyphicon-link"></span> View All Messages</a>
+            </div>
+        </div>
+        </div>
+
+        <div class="col-sm-3" style="padding-left :0px">
+            <div class="panel panel-default">
+                <div class="panel-heading rpscResizedFont"><h2><span class="glyphicon glyphicon-retweet"></span> RPSC e-Transactions</h2></div>
+                <div class="panel-body infoContainer">
+                    <div class="col-xs-12 rpscResizedFont displayBlock" style="overflow:auto">
+                        <table width="100%">
+                            <tr>
+                                <th>Total</th><td>:</td><td align="right"><span class="eTxnCount"  id="eTxnCountTotal">-</span></td>
+                            </tr>
+                            <tr>
+                                <th>This Year</th><td>:</td><td align="right"><span class="eTxnCount"  id="eTxnCountThisYear">-</span></td>
+                            </tr>
+                            <tr>
+                                <th>This Month</th><td>:</td><td align="right"><span class="eTxnCount" id="eTxnCountThisMonth">-</span></td>
+                            </tr>
+                            <tr>
+                                <th>Today</th><td>:</td><td align="right"><span class="eTxnCount" id="eTxnCountToday">-</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel-footer linkContainer" style="text-align:right;">
+                    <a href="javascript:void(0)"><span class="glyphicon glyphicon-link"></span> View All Transactions</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3" style="padding-left:0px">
+            <div class="panel panel-default">
+                <div class="panel-heading rpscResizedFont"><h2><span class="glyphicon glyphicon-time"></span> Upcoming Exam(s)</h2></div>
+                <div class="panel-body infoContainer" style="font-size:90%" >
+                    <div id="upcomingExamPrev" style="width:10px;float:left" class="upExamNavButtons">
+                        
+                    </div>
+                    <div class="col-xs-11 displayBlock" style="overflow:auto" >
+                        <div id="upExamSlides" class="upExamSlides">
+                            <ul><li class='upExamSlide'><br/><div class='page-header rpscResizedFont' style='margin-top:0px;margin-bottom:5px;padding-bottom:5px'><b>No Exams Scheduled Currently</b></div></li></ul>
+                        </div>
+                    </div>
+                    <div id="upcomingExamNext" style="width:10px;float:right;margin-left:-20px" class="upExamNavButtons">
+                        
+                    </div>
+                </div>
+                <div class="panel-footer linkContainer" style="text-align:right;">
+                    <a href="proposedexamdate"><span class="glyphicon glyphicon-link"></span> View All Exams Dates</a>
+                </div>
+            </div>
+        </div>  
     </div>
-  </footer>
 
-  <!-- jQuery (Bootstrap JS plugins depend on it) -->
-  <script src="js/jquery-2.1.4.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/ajax-utils.js"></script>
-  <script src="js/script.js"></script>
+            </div>
+            <!-- Footer Logos -->
+             <div class="well well-sm col-sm-12">
+                <div class="col-sm-6">
+                    <div class="col-xs-3" >
+                        <a href="https://india.gov.in" target="_blank" rel="noopener noreferrer" onclick="return confirm('You will be redirected to a webpage outside RPSC Portal. Are you Sure ?')"><img src="Images/India.jpg" class="img img-responsive" alt="India Portal" /></a>
+                    </div>
+                    
+                    <div class="col-xs-3">
+                        <a href="http://rajasthan.gov.in" target="_blank" rel="noopener noreferrer" onclick="return confirm('You will be redirected to a webpage outside the RPSC Portal. Are you Sure ?')"><img src="Images/Rajasthan.jpg" class="img img-responsive" alt="State Portal" /></a>
+                    </div>
+                    
+                    <div class="col-xs-3">
+                        <a href="http://www.nvsp.in" target="_blank" rel="noopener noreferrer" onclick="return confirm('You will be redirected to a webpage outside the RPSC Portal. Are you Sure ?')"><img src="Images/nvsp.png" class="img img-responsive" alt="National Voters Services Portal" /></a>
+                    </div>
+                    <div class="col-xs-3" >
+                        <a href="https://gandhi.gov.in" target="_blank" rel="noopener noreferrer" onclick="return confirm('You will be redirected to a webpage outside the RPSC Portal. Are you Sure ?')"><img src="Images/Gandhi150.png" class="img img-responsive" alt="India Portal" /></a>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="col-xs-6"><span class="rpscResizedFont"><b>Visitor Number:</b></span> <span class="badge">10,85,97,567</span></div>
+                    <div class="col-xs-6"><b><span class="rpscResizedFont">Last Updated on:</span></b> <span class="badge">Jun 03, 2020</span></div>     
+                </div>
+            </div>
+            <!-- End of Footer Logos -->
+
+            <!-- Footer -->
+            <div class="Footer" align="center" id="rpscFooter">
+                <div class="rpscSlideFooter" id="contactSlide">
+                    <div class="col-sm-4">
+                        <p class="FooterLeft">
+                        <b>Rajasthan Public Service Commission</b>
+                        <br />Ghooghara Ghati, Jaipur Road, Ajmer 305001
+                        <br />Phone &#9742; 0145-2635200
+                        <br />Helpline &#9742; 0145-2635212
+                        <br />विभागीय योजनाओं के बारे में जानकारी प्राप्‍त करने के लिए <br />टोल फ्री नम्‍बर &#9742;<b>1800-180-6127</b> पर सम्‍पर्क करें।
+                        </p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <a href="feedback" class="btn customSiteButton" role="button"><span class="glyphicon glyphicon-pushpin" aria-hidden="true"></span> FEEDBACK</a>
+                        <p>feedback[dot]rpsc[at]rajasthan[dot]gov[dot]in</p>
+                    </div>
+
+                    <div  id="copyright" class="col-sm-4">
+                        <p class="FooterRight">Nodal Officer Websites: <b>Sh. Akhilesh Kumar Mittal</b><br/>Additional Director IT
+                        <br />Phone &#9742; <b>0141-5153222 Ext. - 32015</b><br />Site developed & Managed by RPSC
+                        <br />COPYRIGHT &copy; <b>Rajasthan Public Service Commission</b><br />ALL RIGHTS RESERVED.</p>
+                    </div>
+                </div>
+                <span class="badge" aria-hidden="true" id="navContact">Contact Us: <span id="spnContact" class="glyphicon glyphicon-chevron-down"></span></span>
+            </div>
+            <!-- End of Footer -->
+        </div>
+       <input type="hidden" name="ctl00$webpage" id="ctl00_webpage" value="Home" />
+    
+
+<script type="text/javascript">
+//<![CDATA[
+setSiteTheme('L','#FBD56A', '#FFFFFF', '#FFBF36', '#FFBF36', '#000000', '#000000', '0deg');Sys.Application.add_init(function() {
+    $create(AjaxControlToolkit.AutoCompleteBehavior, {"completionInterval":10,"completionListCssClass":"completionListCss","completionListItemCssClass":"completionListItemCss","completionSetCount":20,"delimiterCharacters":"","highlightedItemCssClass":"completionHighlightedItemCss","id":"AutoCompleteEx","minimumPrefixLength":1,"onHide":"{\"AnimationName\":\"Parallel\",\"Duration\":\".4\",\"AnimationChildren\":[{\"AnimationName\":\"FadeOut\",\"AnimationChildren\":[]},{\"AnimationName\":\"Length\",\"PropertyKey\":\"height\",\"StartValueScript\":\"$find(\\u0027AutoCompleteEx\\u0027)._height\",\"EndValue\":\"0\",\"AnimationChildren\":[]}]}","onShow":"{\"AnimationName\":\"Sequence\",\"AnimationChildren\":[{\"AnimationName\":\"OpacityAction\",\"Opacity\":\"0\",\"AnimationChildren\":[]},{\"AnimationName\":\"HideAction\",\"Visible\":\"true\",\"AnimationChildren\":[]},{\"AnimationName\":\"Parallel\",\"Duration\":\".4\",\"AnimationChildren\":[{\"AnimationName\":\"FadeIn\",\"AnimationChildren\":[]},{\"AnimationName\":\"Length\",\"PropertyKey\":\"height\",\"StartValue\":\"0\",\"EndValueScript\":\"$find(\\u0027AutoCompleteEx\\u0027)._height\",\"AnimationChildren\":[]}]}]}","serviceMethod":"GetCompletionList","servicePath":"Shared/SearchAutoComplete.asmx"}, null, null, $get("ctl00_txtSearchBox"));
+});
+//]]>
+</script>
+</form>
+    
+    <!-- Modal -->
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="awardModal" tabindex="-1" role="dialog" aria-labelledby="myAwardModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="padding-top:10px;">
+            <div class="modal-content" >
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myAwardModalLabel" style="text-align:center"><span class='glyphicon glyphicon-star'></span><b><a href="awards" target="_blank" rel="noopener noreferrer" style="text-decoration:underline"> Recoginitions to RPSC </a></b><span class='glyphicon glyphicon-star'></span></h4></div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+			                <img src='Images/Awards/eIndia.png' class='img img-responsive' alt='Awards' align='center' />
+		                    <p><strong>E-India</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+			                <img src='Images/Awards/eGov.png' class='img img-responsive' alt='Awards' align='center' />
+		                    <p><strong>E-Gov</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+		                    <img src='Images/Awards/FIPS.png' class='img img-responsive' alt='Awards' align='center' />
+		                    <p><strong>FIPS 2014</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/SecureIT2014.png' class='img img-responsive' alt='Awards' align='center' />
+		                    <p><strong>Secure IT 2014</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/CloudGov.png' class='img img-responsive' alt='Awards' /></a>
+		                    <p><strong>Cloud Gov 2014</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/SecureIT2015.png' class='img img-responsive' alt='Awards' align='center' />
+		                    <p><strong>Secure IT 2015</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/Memory.png' class='img img-responsive' alt='Awards' align='center' />
+		                    <p><strong>MEMORY 2015</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/eSmart.png' class='img img-responsive' alt='Awards' align='center'/>
+		                    <p><strong>Smart GI 2016</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/eIndiaC.png' class='img img-responsive' alt='Certificate' align='center'/>
+		                    <p><strong>E-India 2012</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/eGovC.png' class='img img-responsive' alt='Certificate' align='center' />
+		                    <p><strong>E-Gov 2013</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/FIPSC.png' class='img img-responsive' alt='Certificate' align='center' />
+		                    <p><strong>FIPS</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/Skoch2014C.png' class='img img-responsive' alt='Certificate' align='center' />
+		                    <p><strong>Skoch 2014</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/SecureIT2014C.png' class='img img-responsive' alt='Certificate' align='center' />
+		                    <p><strong>SecureIT 2014</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/CloudGovC.png' class='img img-responsive' alt='Certificate' align='center' />
+		                    <p><strong>Cloud Gov 2014</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/SecureIT2015C.png' class='img img-responsive' alt='Certificate' align='center' />
+		                    <p><strong>SecureIT 2015</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/Skoch2015C.png' class='img img-responsive' alt='Certificate' align='center' />
+		                    <p><strong>Skoch<br />2015</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/MemoryC.png' class='img img-responsive' alt='Certificate' align='center'/></a>
+		                    <p><strong>MEMORY 2015</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/eSmartC.png' class='img img-responsive' alt='Certificate' align='center'/>
+		                    <p><strong>Smart GI 2016</strong></p>
+                        </div>
+                        <div class="col-sm-3">
+                            <img src='Images/Awards/manthan2017.png' class='img img-responsive' alt='Awards' align='center'/>
+		                    <p><strong>Manthan 2017</strong></p>
+                        </div>
+                    </div>
+	            </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="rtiModal" tabindex="-1" role="dialog" aria-labelledby="rtiModalLabel" aria-hidden="true">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header"><h4 class="modal-title" id="rtiModalLabel"><span class="glyphicon glyphicon-exclamation-sign"></span> Right To Information</h4></div>
+                <div class="modal-body">
+                    <strong>Nodal Officer of RTI :</strong> <br />Ms. Sangeeta Jain (Dy. Secy.). Phone: 0145-2635258
+                </div>
+                <div class="modal-footer">
+                    <a target="_blank" rel="noopener noreferrer" href="Static/Others/RPSC_RTI.pdf" class="btn btn-default"><span class="glyphicon glyphicon-download"></span> View/Download RTI Handbook</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="rssModal" tabindex="-1" role="dialog" aria-labelledby="rssModalLabel" aria-hidden="true">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+            <div class="modal-header"><h4 class="modal-title" id="rssModalLabel"><span class="glyphicon glyphicon-exclamation-sign"></span> RSS Feeds</h4></div>
+            <div class="modal-body">
+                <strong>The RSS feed for RPSC is intended for providing the Latest News and Information regarding RPSC.</strong><br /><br />RSS Feeds can be <b>subscribed</b> through browsers 
+                which may require extensions or plugins. For mobile view, a suitable RSS reader application is required.<br /><br /> <div align="center"><input type="checkbox" id="chkRss" onclick="if (this.checked) $('#divUrl').css('visibility', 'visible'); else $('#divUrl').css('visibility', 'hidden'); "/><b> Check if you understand the terms and requirements.</b></div>
+                <br />
+                <div id="divUrl" style="visibility:hidden;" align="center">
+                    <small>Copy & Paste the URL below on browsers enabled with RSS Feeds Extension or your Mobile RSS Feed reader Application and <b>Subscribe</b> it.</small>
+                    <br /><br /><span id="spnUrl" style="font-weight:bold;text-decoration:underline">rpsc.rajasthan.gov.in/rssfeeds</span>
+                </div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#divUrl').css('visibility', 'hidden'); $('#chkRss').prop('checked',false);"><span class="glyphicon glyphicon-remove"></span> Close</button></div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="carouselModal" tabindex="-1" role="dialog" aria-labelledby="carouselModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-header"><h4 class="modal-title" id="carouselModalLabel"><span class="glyphicon glyphicon-exclamation-sign"></span> Important Information</h4></div>
+                <div class="modal-body" style="height:400px;">
+                    <div id="carousel-example-modal" align="center" class="col-sm-12 carousel slide" style="padding-right:0px;padding-left:0px" data-ride="carousel">
+		                
+		                <div class="carousel-inner rpscModalCarousel" role="listbox">
+                            <div class='item active' data-interval='4000'><img class='rpscHomeImage' src='Images/carousel/img7.jpg' alt='RPSC' /><div class='carousel-caption'><span>COVID-19 Attention</span></div></div>
+		                </div>
+
+		                <a class="left carousel-control" href="#carousel-example-modal" role="button" data-slide="prev">
+		                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Previous</span>
+		                </a>
+		                <a class="right carousel-control" href="#carousel-example-modal" role="button" data-slide="next">
+		                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Next</span>
+		                </a>
+	                </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Modal -->
 </body>
 </html>
